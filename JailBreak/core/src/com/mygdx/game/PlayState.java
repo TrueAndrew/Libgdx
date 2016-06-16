@@ -10,6 +10,9 @@ import com.mygdx.game.sprites.Convict;
 import com.mygdx.game.sprites.GameOver;
 import com.mygdx.game.sprites.Police;
 
+import java.awt.event.KeyEvent;
+
+
 public class PlayState extends State {
 
     public static final int POLICE_SPACING = 700;
@@ -20,23 +23,30 @@ public class PlayState extends State {
     private Texture ground;
     private Vector2 groundPos_1,groundPos_2;
     private Vector2 BackgroundPos_1,BackgroundPos_2;
+    private Texture Home;
 
-    private Music music;
+
+    com.mygdx.game.sprites.button home;
+
+    Music music;
 
     private Array<Police> polices;
 
     public PlayState(GameStateManager gsm) {
+
         super(gsm);
+
 
         music = Gdx.audio.newMusic(Gdx.files.internal("JailBreak.mp3"));
         music.setLooping(true);
-        music.setVolume(0.3f);								// Громкость музыки
         music.play();
+        music.setVolume(0.3f);
 
         convict = new Convict(30,30);
         camera.setToOrtho(false, JailBreak.WIDTH, JailBreak.HEIGHT);       // Область обзора и расположение по разрешению экрана
         BackroundGame = new Texture("BackgroundGame.psd");
         ground = new Texture("GameGround.psd");
+        Home = new Texture("Home.psd");
 
         groundPos_1 = new Vector2(camera.position.x - camera.viewportWidth / 2 , 0);
         groundPos_2 = new Vector2((camera.position.x - camera.viewportWidth / 2 ) + ground.getWidth(), 0);
@@ -45,18 +55,28 @@ public class PlayState extends State {
         BackgroundPos_2 = new Vector2((camera.position.x - camera.viewportWidth / 2 ) + ground.getWidth(), 0);
 
         polices = new Array<Police>();                                     // создание массива обьектов-полицейских
-
-        for (int i = 1; i < POLICE_COUNT; i++){
-            polices.add(new Police(POLICE_SPACING + Police.POLICE_WIDTH));
-        }
+        polices.add(new Police(POLICE_SPACING + Police.POLICE_WIDTH));
     }
 
     @Override
     protected void handleInput() {                                          // Выполнение прыжка при нажатии на экран
-        if (Gdx.input.isTouched()) {
+        music.setVolume(0.3f);
+        if (Gdx.input.justTouched() && home.update(Gdx.input.getX(), Gdx.input.getY())) {
+            gsm.push(new PauseState(gsm));
+            music.setVolume(0.1f);
+        }
+        else if (Gdx.input.justTouched()) {
             convict.jump();
         }
     }
+
+    ////////////////////////////////////////////////////
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // Обработайте нажатие, верните true, если обработка выполнена
+        return false;
+    }
+    /////////////////////////////////////////////////
 
     @Override
     public void update(float dt) {
@@ -68,6 +88,7 @@ public class PlayState extends State {
         camera.position.x = convict.getPosition().x + 350;                   // Позиция обьекта-полицейского
 
         for (int i = 0; i< polices.size; i++){
+
 
             Police police = polices.get(i);
 
@@ -85,13 +106,14 @@ public class PlayState extends State {
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);                // установление положения камеры а так же всех элементов (картинок)
         sb.begin();
+        home = new com.mygdx.game.sprites.button(sb, Home, 740, 410, Home.getWidth(), Home.getHeight());
         sb.draw(BackroundGame, camera.position.x - (camera.viewportWidth / 2), 0);
         sb.draw(BackroundGame, BackgroundPos_1.x, BackgroundPos_1.y);
         sb.draw(BackroundGame, BackgroundPos_2.x, BackgroundPos_2.y);
-
+        sb.draw(Home, camera.position.x + 336, camera.position.y + 170);
         for (Police police:polices){
             sb.draw(convict.getConvict(), convict.getPosition().x, convict.getPosition().y);
-            sb.draw(police.getPolice(),police.getPosPolice().x,police.getPosPolice().y);
+            sb.draw(police.getPolice(), police.getPosPolice().x,police.getPosPolice().y);
         }
         sb.draw(ground, groundPos_1.x, groundPos_1.y);
         sb.draw(ground, groundPos_2.x, groundPos_2.y);
@@ -106,7 +128,10 @@ public class PlayState extends State {
         for (Police police:polices)
             police.dispose();
         music.dispose();
+        Home.dispose();
     }
+
+
 
     private void updateGround(){                // создание идущих друг за другом текстуры земли
         if (camera.position.x - (camera.viewportWidth / 2) > groundPos_1.x +ground.getWidth())
@@ -122,3 +147,4 @@ public class PlayState extends State {
             BackgroundPos_2.add(ground.getWidth() * 2, 0);
     }
 }
+

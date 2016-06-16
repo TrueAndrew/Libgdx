@@ -13,6 +13,8 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useCompass = false;					// Отключение компаса для сохранения заряда батареи телефона
 		config.useAccelerometer = false;			// Отключение акселерометра для сохранения заряда батареи телефона
+		config.useImmersiveMode = true;
+		config.useWakelock = true;
 		initialize(new JailBreak(), config);
 	}
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class Convict {
 
@@ -15,7 +16,6 @@ public class Convict {
     private Texture texture;
     private Rectangle bounds;
     private Animation convictAnimation;
-
 
     public Convict(int x,int y){
         position = new Vector3(x,y,0);
@@ -49,9 +49,7 @@ public class Convict {
         bounds.setPosition(position.x, position.y);
     }
 
-    public void jump(){
-        velosity.y = 680;
-    }
+    public void jump(){  velosity.y = 780; }
 
     public Rectangle getBounds(){
         return bounds;

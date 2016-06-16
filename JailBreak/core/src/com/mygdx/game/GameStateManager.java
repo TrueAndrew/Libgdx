@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import java.util.Stack;
 
 
@@ -10,14 +9,17 @@ public class GameStateManager {
     private Stack<State> states;
 
     public GameStateManager(){
+
         states = new Stack<State>();
     }          // Создание стека
 
     public void push(State state){                                      // Помещает элемент в вершину стека
+
         states.push(state);
     }
 
     public void pop(){                                                  // Извлекает первый элемент стека,удаляя его
+
         states.pop().dispose();
     }
 
@@ -33,4 +35,5 @@ public class GameStateManager {
     public void render(SpriteBatch sb){
         states.peek().render(sb);
     }    // Отрисовывает экран
+
 }

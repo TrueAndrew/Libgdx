@@ -10,7 +10,6 @@ public class JailBreak extends ApplicationAdapter {
 	public static final int HEIGHT = 480;					// ширина экрана
 
 	public static final String TITLE = "Jail Break";      	//название игры
-
 	private GameStateManager gsm;
 	private SpriteBatch batch;
 
@@ -22,7 +21,7 @@ public class JailBreak extends ApplicationAdapter {
 		gsm.push(new MenuState(gsm));
 	}
 
-	@Override
+
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gsm.update(Gdx.graphics.getDeltaTime());			// Обновление экрана
