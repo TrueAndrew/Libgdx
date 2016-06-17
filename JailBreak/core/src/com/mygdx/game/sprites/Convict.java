@@ -9,13 +9,16 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class Convict {
 
-    private static final int SPEED = 350;           // скорость перемещения экрана
+    private static final int speed = 350;           // скорость перемещения экрана
     private static final int GRAVITY = -49;         // создание искусственной гравитации
     private Vector3 position;
     private Vector3 velosity;
     private Texture texture;
     private Rectangle bounds;
     private Animation convictAnimation;
+
+    float SPEED=speed;
+    float heightSpeed = (float) 0.05;
 
     public Convict(int x,int y){
         position = new Vector3(x,y,0);
@@ -35,6 +38,7 @@ public class Convict {
 
     public void update(float dt){                               // Основное движение модельки с ограничениями по высоте
         convictAnimation.update(dt);
+        SPEED = SPEED + heightSpeed;
         if (position.y > 30 || position.y <380)
             velosity.add(0,GRAVITY,0);
         velosity.scl(dt);

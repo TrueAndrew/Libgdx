@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,7 +11,7 @@ import com.mygdx.game.sprites.Convict;
 import com.mygdx.game.sprites.GameOver;
 import com.mygdx.game.sprites.Police;
 
-import java.awt.event.KeyEvent;
+
 
 
 public class PlayState extends State {
@@ -70,14 +71,6 @@ public class PlayState extends State {
         }
     }
 
-    ////////////////////////////////////////////////////
-
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // Обработайте нажатие, верните true, если обработка выполнена
-        return false;
-    }
-    /////////////////////////////////////////////////
-
     @Override
     public void update(float dt) {
         updateBackGround();
@@ -88,7 +81,6 @@ public class PlayState extends State {
         camera.position.x = convict.getPosition().x + 350;                   // Позиция обьекта-полицейского
 
         for (int i = 0; i< polices.size; i++){
-
 
             Police police = polices.get(i);
 
@@ -121,6 +113,16 @@ public class PlayState extends State {
     }
 
     @Override
+    public boolean keyDown(int keycode) {
+        switch(keycode){
+            case Input.Keys.BACK:
+                gsm.set(new MenuState(gsm));
+                break;
+        }
+        return true;
+    }
+
+    @Override
     public void dispose() {
         BackroundGame.dispose();
         convict.dispose();
@@ -130,8 +132,6 @@ public class PlayState extends State {
         music.dispose();
         Home.dispose();
     }
-
-
 
     private void updateGround(){                // создание идущих друг за другом текстуры земли
         if (camera.position.x - (camera.viewportWidth / 2) > groundPos_1.x +ground.getWidth())

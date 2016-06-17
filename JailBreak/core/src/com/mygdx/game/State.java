@@ -1,12 +1,12 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.GameStateManager;
+import com.badlogic.gdx.InputAdapter;
 
-public abstract class State{
+public abstract class State extends InputAdapter{
 
     protected OrthographicCamera camera;
     protected Vector3 mouse;
@@ -16,8 +16,10 @@ public abstract class State{
     public State(GameStateManager gsm){             // Конструктор
 
         this.gsm = gsm;
+        Gdx.input.setInputProcessor(this);
         camera = new OrthographicCamera();
         mouse = new Vector3();
+        Gdx.input.setCatchBackKey(true);
     }
 
     protected abstract void handleInput();          // Проверяет были ли нажаты клавиши или touchScreen

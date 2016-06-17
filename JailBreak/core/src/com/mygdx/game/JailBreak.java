@@ -24,7 +24,7 @@ public class JailBreak extends ApplicationAdapter {
 
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		gsm.update(Gdx.graphics.getDeltaTime());			// Обновление экрана
+		gsm.update(0.017f);									// Обновление экрана
 		gsm.render(batch);									// Отрисовывает верхний экран в стеке
 	}
 
